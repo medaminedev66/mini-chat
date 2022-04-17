@@ -3,6 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import cors from 'cors';
 // import socketHandler from './handlers/socket.js';
 
 const filename = fileURLToPath(import.meta.url);
@@ -12,15 +13,20 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+app.use(cors());
 app.use(express.static(__dirname + '/server/public'));
 app.get('/', (_, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
 server.listen(4000, () => {
-  console.log('listening on:4000', server.address());
+  console.log('listening on:4000');
   io.on('connection', function (socket) {
-      console.log("connected");
+    console.log('connected');
     //socketHandler(socket, io);
+  });
+
+  io.on('new connection', () => {
+    console.log('Established');
   });
 });
