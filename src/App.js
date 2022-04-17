@@ -1,10 +1,11 @@
 import './App.css';
+import MainChat from './components/MainChat.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
+    <div >
+      <h1>Mini-chat</h1>
+      <MainChat />
     </div>
   );
 }
