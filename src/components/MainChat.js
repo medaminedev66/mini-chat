@@ -1,17 +1,23 @@
 // import io from 'socket.io-client';
 /* eslint-disable no-undef */
 
+import ChatForm from "./ChatForm.js";
+import LoginForm from "./LoginForm.js";
+/* eslint-disable no-undef */
+
+
+import "../index.css"
+
+
 export default function MainChat() {
-  console.log(io());
-  const socket = io.connect('http://localhost:4000');
-  socket.emit('new connection');
+
   return (
-    <>
-      <div></div>
-      <div>
-        <input type="text" />
-        <button>Send</button>
+    <div>
+      <LoginForm/>
+      <div className="chat-box">
+        <ul></ul>
       </div>
-    </>
+      <ChatForm />
+    </div>
   );
 }
