@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 
 import { useContext, useState } from "react";
@@ -6,44 +7,36 @@ import ChatContext from "./ChatContext.js";
 
 export default function JoinForm() {
 
-  const { connectState } = useContext(ChatContext);
-
-  const [isConnected, setIsConnected] = connectState;
-
-  const [name, setName] = useState();
-  // console.log(isConnected, setIsConnected);
-
+  const { connectState: [,setIsConnected] } = useContext(ChatContext); //
+  
+  const [name, setName] = useState("");
+  const [btnDisabled, setBtnDisabled] = useState(true)
+  
   const connect = () => {
       window.socket = io('http://localhost:5400');
       
-      //send user name after successful connection
       socket.on("connect", ()=> {
-        socket.emit('user-joined', { name });
-        // logic to hide JoinForm and show mainChat and ChatForm;
+        socket.emit('user-joined', name);
         setIsConnected(true);
-      });
-
-      // new user joined (including client)
-      socket.on('joined', (e)=> {
-        // some logic to show a new user joined the chat room
-        console.log("joined chatroom", e);
-
       });
 
       socket.on("message", (data)=> {
         console.log(data);
-      })
+      });
   }
 
+
   const onChange = (e)=> {
-    setName(e.target.value);
-    console.log(isConnected)
+    const value = e.target.value
+    value !== ""
+    ? (setName(value), setBtnDisabled(false))
+    : setBtnDisabled(true);
   }
 
   return (
     <div>
-        <input placeholder="you name..." onChange={ onChange } ></input>
-        <button onClick={ connect }  >Connect Now</button>
+        <input placeholder="yupe your name..." onChange={ onChange } ></input>
+        <button onClick={ connect } disabled={btnDisabled}  >Connect Now</button>
     </div>
   )
 }

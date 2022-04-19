@@ -3,7 +3,6 @@ const usersArray = [];
 
 export function handleConnect (socket) {
         
-    // create a unique user id with timestamp
     const uid = Date.now();
 
     socket.join(chatroom);
@@ -14,7 +13,6 @@ export function handleConnect (socket) {
     })
 
     socket.on("message", ({message}) => {
-        // console.log("message received", {data})
         socket.broadcast.to(chatroom).emit("message", { uid, message })
     });
 

@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ChatForm from './components/ChatForm.js';
 import JoinForm from './components/JoinForm.js';
 import MainChat from './components/MainChat.js';
 import ChatContext from "./components/ChatContext.js";
-
-import './App.css';
-
-
+import MemberPool from './components/MembersPool.js';
 
 function App() {
 
@@ -17,9 +14,13 @@ function App() {
     <div >
       <h1>Mini-Chat</h1>
         <ChatContext.Provider value={{connectState: [isConnected, setIsConnected], memberList:[members, setMembers]}}>
-          {!isConnected? 
+          {!isConnected ? 
           <JoinForm /> :
-          <><MainChat /><ChatForm /></>}
+          <>
+            <MainChat />
+            <ChatForm />
+            <MemberPool/>
+          </>}
         </ChatContext.Provider>
     </div>
   );
